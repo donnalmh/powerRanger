@@ -41,7 +41,7 @@
                                             <constraint firstAttribute="width" constant="316" id="tXQ-pG-Ik5"/>
                                         </constraints>
                                         <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PowerCell" rowHeight="130" id="2ME-9o-efy" customClass="PowerCell" customModule="PowerRanger" customModuleProvider="target">
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="PowerCell" rowHeight="130" id="2ME-9o-efy" customClass="PowerCell" customModule="PowerRanger" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="28" width="316" height="130"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="2ME-9o-efy" id="MkT-ab-UGQ">
@@ -57,7 +57,7 @@
                                                             <rect key="frame" x="113" y="29" width="135" height="39"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="40"/>
-                                                            <color key="textColor" red="0.89039713139999999" green="0.3619375527" blue="0.52632009980000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <color key="textColor" red="0.44313725490196076" green="0.26666666666666666" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
@@ -87,6 +87,10 @@
                                                 <rect key="frame" x="311" y="0.0" width="325" height="55"/>
                                                 <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="33"/>
                                                 <state key="normal" title="Save"/>
+                                                <connections>
+                                                    <action selector="saveButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="IyL-Uz-tHp"/>
+                                                    <action selector="saveButtonTapped:" destination="fX7-aH-Zr3" eventType="touchUpInside" id="qXR-iT-HBi"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <constraints>
@@ -123,10 +127,12 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="mapImage" destination="Gzb-nB-DTG" id="G0G-N2-UmN"/>
                         <outlet property="tableView" destination="PQw-0j-aEM" id="6Gm-cq-hiK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <exit id="fX7-aH-Zr3" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="137.6953125" y="130.46875"/>
         </scene>

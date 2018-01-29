@@ -18,19 +18,32 @@ class PowerCell: UITableViewCell {
         // Initialization code
     }
 
+
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
     }
     
-    func configureCell(colour: String, id: String){
+    func configureCell(colour: String, id: String, deployed: Bool){
         
         let colour = UIColor(hex: colour)
-    
-        colourLabel.text = id
-        colourLabel.textColor = colour
-        colourRect.backgroundColor = colour
+
+        if deployed {
+            self.selectionStyle = UITableViewCellSelectionStyle.none
+            self.isUserInteractionEnabled = false
+            
+            colourLabel.text = id
+            colourLabel.textColor = UIColor.gray
+            colourRect.backgroundColor = UIColor.gray
+            
+        } else {
+            colourLabel.text = id
+            colourLabel.textColor = colour
+            colourRect.backgroundColor = colour
+        }
     }
+    
+    
 
 }

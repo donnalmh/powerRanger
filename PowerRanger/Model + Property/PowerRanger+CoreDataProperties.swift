@@ -8,6 +8,7 @@
 //
 
 import Foundation
+import UIKit
 import CoreData
 // No need to mess with this part
 // Extension of the class
@@ -20,8 +21,9 @@ extension PowerRanger {
 
     @NSManaged public var id: String?
     @NSManaged public var colourAsHex: String?
-    @NSManaged public var pointX: Double
-    @NSManaged public var pointY: Double
+    @NSManaged public var pointX: CGFloat
+    @NSManaged public var pointY: CGFloat
     @NSManaged public var isDeployed: Bool
+
 
 }

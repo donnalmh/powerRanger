@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8C860596201ED4660066DD70 /* PowerRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C860595201ED4650066DD70 /* PowerRect.swift */; };
+		8C860598201EDBDD0066DD70 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C860597201EDBDD0066DD70 /* Constants.swift */; };
 		8C8D27E8201C6380003DF5DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8D27E7201C6380003DF5DB /* AppDelegate.swift */; };
 		8C8D27EA201C6380003DF5DB /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8D27E9201C6380003DF5DB /* MainVC.swift */; };
 		8C8D27ED201C6380003DF5DB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8C8D27EB201C6380003DF5DB /* Main.storyboard */; };
@@ -20,6 +22,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8C860595201ED4650066DD70 /* PowerRect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PowerRect.swift; sourceTree = "<group>"; };
+		8C860597201EDBDD0066DD70 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		8C8D27E4201C6380003DF5DB /* PowerRanger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PowerRanger.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C8D27E7201C6380003DF5DB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8C8D27E9201C6380003DF5DB /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
@@ -83,6 +87,7 @@
 				8C8D27FC201C65C0003DF5DB /* PowerRanger+CoreDataClass.swift */,
 				8C8D27FD201C65C1003DF5DB /* PowerRanger+CoreDataProperties.swift */,
 				8C8D2805201CC073003DF5DB /* UIColorExtension.swift */,
+				8C860597201EDBDD0066DD70 /* Constants.swift */,
 			);
 			path = "Model + Property";
 			sourceTree = "<group>";
@@ -91,6 +96,7 @@
 			isa = PBXGroup;
 			children = (
 				8C8D2803201CBDB0003DF5DB /* PowerCell.swift */,
+				8C860595201ED4650066DD70 /* PowerRect.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -172,8 +178,10 @@
 				8C8D2806201CC073003DF5DB /* UIColorExtension.swift in Sources */,
 				8C8D27E8201C6380003DF5DB /* AppDelegate.swift in Sources */,
 				8C8D27FF201C65C1003DF5DB /* PowerRanger+CoreDataProperties.swift in Sources */,
+				8C860596201ED4660066DD70 /* PowerRect.swift in Sources */,
 				8C8D27FE201C65C1003DF5DB /* PowerRanger+CoreDataClass.swift in Sources */,
 				8C8D27F0201C6380003DF5DB /* PowerRanger.xcdatamodeld in Sources */,
+				8C860598201EDBDD0066DD70 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

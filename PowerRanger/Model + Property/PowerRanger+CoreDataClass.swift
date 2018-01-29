@@ -17,5 +17,9 @@ public class PowerRanger: NSManagedObject {
         super.awakeFromInsert()
         
     }
+    
+    func deployed(){
+        isDeployed = !isDeployed
+    }
 
 }

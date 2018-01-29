@@ -16,8 +16,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+         let userDefaults = UserDefaults.standard
+        let defaultValues = ["firstRun": true]
+        userDefaults.register(defaults: defaultValues)
         return true
+    
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -90,4 +93,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 }
+
+let appDelegate = UIApplication.shared.delegate as! AppDelegate
+
+let context = appDelegate.persistentContainer.viewContext
 
