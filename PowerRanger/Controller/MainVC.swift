@@ -24,10 +24,15 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
         
         tableView.delegate = self
         tableView.dataSource = self
+        mapImage.alpha = 0.0
+        UIView.animate(withDuration: 1.5, delay: 0.4, options: .allowAnimatedContent, animations: {
+            self.mapImage.alpha = 1.0
+        }, completion: nil)
         
         fetchData()
         controller.delegate = self
         tableView.reloadData()
+        self.view.layoutIfNeeded()
     }
     
     //----------------------- UITableViewDataSource Methods ----------------------------- //
@@ -99,26 +104,33 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
         
         var x =  powerRanger.pointX
         var y = powerRanger.pointY
-        
+ 
         if(!powerRanger.hasBeenInitialised )
         {
-            print("New Rectangle")
             x = mapImage.frame.width/2 - RECT_OFFSET
             y = mapImage.frame.height/2 - RECT_OFFSET
-            print("Initial x:\(x)")
-            print("Initial y:\(y)")
+            
             powerRanger.hasBeenInitialised = true
         }else{
-            print("x:\(x)")
-            print("y:\(y)")
             x =  powerRanger.pointX
             y = powerRanger.pointY
-            print("has been initialised:\(powerRanger.hasBeenInitialised)")
         }
-        
-        let rect = CGRect(x: x, y: y, width: RECT_WIDTH, height: RECT_HEIGHT)
-        let powerRect = PowerRect(frame: rect, powerRanger: powerRanger)
     
+        let rect = CGRect(x: x, y: y, width: 1.0, height: 1.0)
+        let powerRect = PowerRect(frame: rect, powerRanger: powerRanger)
+        powerRect.alpha = 0.0
+        
+        UIView.animate(withDuration: 0.35, delay: 0.0, options: .curveEaseInOut, animations: {
+            powerRect.alpha = 1.0
+            powerRect.frame.size.height = RECT_WIDTH + 5
+            powerRect.frame.size.width = RECT_WIDTH + 5
+        }, completion: nil)
+        
+        UIView.animate(withDuration: 0.35, delay: 0.35, options: .curveEaseOut , animations: {
+            powerRect.frame.size.height = RECT_WIDTH
+            powerRect.frame.size.width = RECT_WIDTH
+        }, completion: nil)
+        
         mapImage.addSubview(powerRect)
         addPanGesture(powerRect: powerRect)
     }
@@ -222,8 +234,6 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
         case .ended:
             transX = 0
             transY = 0
-            print("rangerView.frame.minX:\(rangerView.frame.minX)")
-            print("rangerView.frame.minY:\(rangerView.frame.minY)")
             rangerView.powerRanger.pointX = rangerView.frame.minX
             rangerView.powerRanger.pointY = rangerView.frame.minY
         case .cancelled:

@@ -12,13 +12,13 @@ class PowerRect: UIView {
     
     var powerRanger: PowerRanger!
     var gestureRecognizer: UIPanGestureRecognizer!
-    /*
+    
     // Only override draw() if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.
     override func draw(_ rect: CGRect) {
-        // Drawing code
+        print("drawing")
     }
-    */
+ 
     override func awakeFromNib() {
         super.awakeFromNib()
         isUserInteractionEnabled = true
@@ -26,6 +26,7 @@ class PowerRect: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame) // calls designated initializer
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
