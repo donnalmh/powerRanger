@@ -49,6 +49,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8C8CF75E20204F0100D5F60B /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				8C8D27E9201C6380003DF5DB /* MainVC.swift */,
+				8C8D27E7201C6380003DF5DB /* AppDelegate.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
 		8C8D27DB201C6380003DF5DB = {
 			isa = PBXGroup;
 			children = (
@@ -68,10 +77,9 @@
 		8C8D27E6201C6380003DF5DB /* PowerRanger */ = {
 			isa = PBXGroup;
 			children = (
+				8C8CF75E20204F0100D5F60B /* Controller */,
 				8C8D2802201CBD9E003DF5DB /* Views */,
 				8C8D2800201C65ED003DF5DB /* Model + Property */,
-				8C8D27E7201C6380003DF5DB /* AppDelegate.swift */,
-				8C8D27E9201C6380003DF5DB /* MainVC.swift */,
 				8C8D27EB201C6380003DF5DB /* Main.storyboard */,
 				8C8D27F1201C6380003DF5DB /* Assets.xcassets */,
 				8C8D27F3201C6380003DF5DB /* LaunchScreen.storyboard */,
