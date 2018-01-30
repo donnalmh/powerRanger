@@ -25,7 +25,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="p0e-cp-u9Z">
-                                <rect key="frame" x="20" y="44" width="316" height="704"/>
+                                <rect key="frame" x="20" y="44" width="314" height="704"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Power Rangers" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ot0-CG-uXk">
                                         <rect key="frame" x="0.0" y="0.0" width="226" height="44"/>
@@ -34,7 +34,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="PQw-0j-aEM">
-                                        <rect key="frame" x="0.0" y="54" width="316" height="650"/>
+                                        <rect key="frame" x="0.0" y="54" width="314" height="650"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="650" id="MIf-hl-JWc"/>
@@ -42,10 +42,10 @@
                                         </constraints>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="PowerCell" rowHeight="130" id="2ME-9o-efy" customClass="PowerCell" customModule="PowerRanger" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="28" width="316" height="130"/>
+                                                <rect key="frame" x="0.0" y="28" width="314" height="130"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="2ME-9o-efy" id="MkT-ab-UGQ">
-                                                    <rect key="frame" x="0.0" y="0.0" width="316" height="129.5"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="314" height="129.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UXa-6x-hJ0">
@@ -72,7 +72,7 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="3eZ-vl-C27">
-                                <rect key="frame" x="356" y="40" width="650" height="708"/>
+                                <rect key="frame" x="354" y="40" width="650" height="708"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="Xz1-6d-md1">
                                         <rect key="frame" x="0.0" y="0.0" width="650" height="58"/>

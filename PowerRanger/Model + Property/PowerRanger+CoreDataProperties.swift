@@ -22,6 +22,7 @@ extension PowerRanger {
     @NSManaged public var pointX: CGFloat
     @NSManaged public var pointY: CGFloat
     @NSManaged public var isDeployed: Bool
+    @NSManaged public var hasBeenInitialised: Bool
 
 
 }

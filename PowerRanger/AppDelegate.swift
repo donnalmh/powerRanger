@@ -91,10 +91,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
-
 }
 
-let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    // Declaring variables to store reference to UIApp's Shared Delegate Instance
+    // and Context associated with this the App's Persistent Container
 
-let context = appDelegate.persistentContainer.viewContext
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    let context = appDelegate.persistentContainer.viewContext
 

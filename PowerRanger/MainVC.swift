@@ -11,7 +11,10 @@ import CoreData
 
 class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate, UIGestureRecognizerDelegate {
 
+    //
     // Variables
+    //
+    
     @IBOutlet weak var mapImage: UIView!
     @IBOutlet weak var tableView: UITableView!
     var controller: NSFetchedResultsController<PowerRanger>!
@@ -25,17 +28,14 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
         fetchData()
         controller.delegate = self
         tableView.reloadData()
-        print("End cellForRowAt")
     }
     
-    // UITableViewDataSource
+    //----------------------- UITableViewDataSource Methods ----------------------------- //
+    //
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PowerCell", for: indexPath) as! PowerCell
-        
-        // Updates Table View Cell and Draws Rectangles in Map accordingly
-        // Note: Would be better to update Map somewhere else, but put here for time being
-        // to leverage on indexPath
+   
         updateCell(cell: cell, indexPath: indexPath as NSIndexPath )
         updateMap(indexPath: indexPath)
         return cell
@@ -60,36 +60,34 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
         return 110.0
     }
     
-    // UITableViewDelegate methods
-    
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        // Grey out cell and render unselectable
-        
-        // Re-configuring data so that Power Ranger is indicated as deployed and will update Map
-    }
+    //----------------------- UITableViewDelegate Methods ----------------------------- //
+    //
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
-        // Grey out cell and render unselectable
+
         let cell = tableView.cellForRow(at: indexPath)
         cell?.selectionStyle = UITableViewCellSelectionStyle.none
 
-        // Updating Power Ranger's isDeployed BOOL var
         let powerCell = controller.object(at: indexPath as IndexPath)
-        powerCell.deployed()
+        powerCell.setDeployed()
         
-        // Update Map after User interacts with Table
         updateMap(indexPath: indexPath)
     }
     
-    // Update Methods
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        
+    }
     
-    // Update Cell Rect Colour and Labels
+    // ----------------------- Update Methods ----------------------------- //
+    // UITableViewCell: Rect Colour and Labels
+    // UIView Map: Display Power Rangers that are indicated as deployed
+    //
+    
     func updateCell(cell: PowerCell, indexPath: NSIndexPath){
         let powerCell = controller.object(at: indexPath as IndexPath)
         cell.configureCell(colour: powerCell.colourAsHex!, id: powerCell.id!, deployed: powerCell.isDeployed)
     }
     
-    // Update Map : Draw UIViews to represent any deployed rangers
     func updateMap(indexPath: IndexPath){
         let powerRanger = controller.object(at: indexPath)
         if(powerRanger.isDeployed){
@@ -97,127 +95,120 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
         }
     }
     
-    // Sub-method from Update Map to draw subview UIView with frame CGRect and added to main UIView mapImage
     func drawRect(powerRanger: PowerRanger){
-        // If is a new Rectangle
-        var centerX =  powerRanger.pointX  - /2
-        var centerY = powerRanger.pointY - RECT_HEIGHT/2
-        if(centerX == 0.0 && centerY == 0.0)
+        
+        var x =  powerRanger.pointX
+        var y = powerRanger.pointY
+        
+        if(!powerRanger.hasBeenInitialised )
         {
-            centerX = mapImage.frame.width/2 - /2
-            centerY = mapImage.frame.height/2 - RECT_HEIGHT/2
+            print("New Rectangle")
+            x = mapImage.frame.width/2 - RECT_OFFSET
+            y = mapImage.frame.height/2 - RECT_OFFSET
+            print("Initial x:\(x)")
+            print("Initial y:\(y)")
+            powerRanger.hasBeenInitialised = true
+        }else{
+            print("x:\(x)")
+            print("y:\(y)")
+            x =  powerRanger.pointX
+            y = powerRanger.pointY
+            print("has been initialised:\(powerRanger.hasBeenInitialised)")
         }
-        var rect = CGRect(x: centerX, y: centerY, width: , height: RECT_HEIGHT)
-        var powerRect = PowerRect(frame: rect, powerRanger: powerRanger)
-        powerRect.backgroundColor = UIColor(hex: powerRanger.colourAsHex!)
+        
+        let rect = CGRect(x: x, y: y, width: RECT_WIDTH, height: RECT_HEIGHT)
+        let powerRect = PowerRect(frame: rect, powerRanger: powerRanger)
+    
         mapImage.addSubview(powerRect)
         addPanGesture(powerRect: powerRect)
-        
     }
-    
-    // IBAction methods defined
-    @IBAction func saveButtonTapped(_ sender: Any) {
-        
-        appDelegate.saveContext()
-        print("Saved context!")
-    }
-    
     // Adding Pan Gesture
     func addPanGesture(powerRect: PowerRect){
         let pan = UIPanGestureRecognizer(target: self, action: #selector(self.handlePan(sender:)))
         powerRect.addGestureRecognizer(pan)
         pan.delegate = self
-        
     }
     
+    // Determine whether current value is on min or max bound
     func closerTo(value: CGFloat, min: CGFloat, max: CGFloat) -> CGFloat{
-        if fabs(value - min) < fabs(value-max)
-        {
-            print("difference: ",value - min)
-            return min
-        }else
-        {
-            return max
-        }
+        let value = (fabs(value - min) < fabs(value-max)) ? min : max
+        return value
     }
     
     @objc func handlePan(sender: UIPanGestureRecognizer){
         print("Handling Pan Gesture")
-        // Want to redraw new location of rectangle according to location of touch
-        // When finger releases, new location of view gets updated, and update point x and Y of power ranger
         
         let rangerView: PowerRect = sender.view as! PowerRect
-        print("Current power Ranger selected:\(rangerView.powerRanger.id)")
-      
+        let rangerCenter = rangerView.center
         let mapCenter = mapImage.center
         let mapHalfWidth = mapImage.frame.width/2
-        var rangerCenter = rangerView.center
         
-        let margin = /2
+        // margin represents distance between rangerView's center point and map edge upon contact
+        let margin = RECT_WIDTH/2
         let maxXYRange: CGFloat = mapHalfWidth - margin
-        print("margin:\(margin)")
-        print("mapHalfWidth:\(mapHalfWidth)")
         
-        var translation = sender.translation(in: mapImage)
-        var transX = translation.x
-        var transY = translation.y
+        var transX = sender.translation(in: mapImage).x
+        var transY = sender.translation(in: mapImage).y
         
-        // Check to see that ranger is within XY bounds of map
-        // For X Coordinates
-        
+        // min and max represent the range bounds [-min, -max] in mapImage's XY Coordinate Systems
         let min = mapCenter.x - maxXYRange
         let max = mapCenter.x + maxXYRange
-
+        
         switch sender.state{
         case .began, .changed:
             
+            // 1A) Check to see if user attempts to move Power Ranger out of [min, max] x-range
             if (rangerCenter.x >= max || rangerCenter.x <= min )
             {
-                var xBound: CGFloat = closerTo(value: rangerCenter.x, min: min, max: max)
+                // Checks to see if Power Ranger is on the min-bound or max-bound
+                let xBound: CGFloat = closerTo(value: rangerCenter.x, min: min, max: max)
                 if( xBound == max )
                 {
-                    print("Closer to max X")
+                    // If x-translation will cause Power Ranger's position to exceed x-range,
+                    // set Ranger's x-position to min or max. Else, Power Ranger is allowed to remain and
+                    // move within range
                     if( transX > 0 )
                     {
-                        rangerView.center = CGPoint(x: max, y: rangerView.center.y)
+                        rangerView.center.x = xBound
                     }else{
-                        rangerView.center = CGPoint(x: max + transX, y: rangerView.center.y )
+                        rangerView.center.x += transX
                     }
-                }else{
-                    print("Closer to min Y")
+                }else if( xBound == min )
+                {
                     if( transX < 0 )
                     {
-                        rangerView.center = CGPoint(x: min, y: rangerView.center.y )
+                        rangerView.center.x = xBound
                     }else{
-                        rangerView.center = CGPoint(x: min + transX, y: rangerView.center.y)
+                        rangerView.center.x += transX
                     }
                 }
-            }
+            } // End of Check 1A)
             
-            //  Checking within Ybounds
+            // 1B) Check to see if user attempts to move Power Ranger out of [min, max] y-range
             if (rangerCenter.y >= max || rangerCenter.y <= min )
             {
-                var yBound: CGFloat = closerTo(value: rangerCenter.y, min: min, max: max)
-                
+                // Checks to see if Power Ranger is on the min-bound or max-bound
+                let yBound: CGFloat = closerTo(value: rangerCenter.y, min: min, max: max)
                 if( yBound == max )
                 {
-                    print("Closer to max Y")
+                    // If y-translation will cause Power Ranger's position to exceed y-range,
+                    // set Ranger's y-position to min or max. Else, Power Ranger is allowed to remain and
+                    // move within range
                     if( transY > 0 )
                     {
-                        rangerView.center = CGPoint(x: rangerView.center.x, y: max)
+                        rangerView.center.y =  max
                     }else{
-                        rangerView.center = CGPoint(x: rangerView.center.x, y: max + transY)
+                        rangerView.center.y += transY
                     }
                 }else{
-                    print("Closer to min Y")
                     if( transY < 0 )
                     {
-                        rangerView.center = CGPoint(x: rangerView.center.x + transX, y: min)
+                        rangerView.center.y =  min
                     }else{
-                        rangerView.center = CGPoint(x: rangerView.center.x + transX, y: min + transY)
+                        rangerView.center.y += transY
                     }
                 }
-            }
+            } // End of Check 1B)
             
             if(rangerCenter.x < max && rangerCenter.x >= min && rangerCenter.y < max && rangerCenter.y >= min )
             {
@@ -231,22 +222,25 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
         case .ended:
             transX = 0
             transY = 0
-            rangerView.powerRanger.pointX = rangerView.center.x
-            rangerView.powerRanger.pointY = rangerView.center.y
-            
+            print("rangerView.frame.minX:\(rangerView.frame.minX)")
+            print("rangerView.frame.minY:\(rangerView.frame.minY)")
+            rangerView.powerRanger.pointX = rangerView.frame.minX
+            rangerView.powerRanger.pointY = rangerView.frame.minY
         case .cancelled:
             return
         case .failed:
             return
         }
+    }
     
-        
+    // ----------------------- Save Methods ----------------------------- //
+    @IBAction func saveButtonTapped(_ sender: Any) {
+        appDelegate.saveContext()
+        print("Saved context!")
     }
 
-    
-    // NSController
+    // ----------------------- NSController Methods ----------------------------- //
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        print("Accessing controllerWillChangeContent")
         tableView.beginUpdates()
     }
     
@@ -261,59 +255,40 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
             if let indexPath = newIndexPath{
                 tableView.insertRows(at: [indexPath], with: .fade)
             }
-            
-        case.delete:
-            if let indexPath = indexPath{
-                tableView.deleteRows(at: [indexPath], with: .fade)
-            }
-        case.move:
-            if let indexPath = indexPath{
-                tableView.deleteRows(at: [indexPath], with: .fade)
-            }
-            
-            if let indexPath = newIndexPath{
-                tableView.insertRows(at: [indexPath], with: .fade)
-            }
         case.update:
             if let indexPath = indexPath{
                 let cell = tableView.cellForRow(at: indexPath) as! PowerCell
                 updateCell(cell: cell, indexPath: indexPath as NSIndexPath)
             }
+        case.delete:
+            return
+        case.move:
+            return
         }
     }
     
-    // NSFetchResults
+    // ----------------------- NSFetchResults Methods ----------------------------- //
     
     func fetchData(){
-        
-        // Configure Fetch Request and Sort Descriptor
-        // Important: Fetch Request must be assigned a SortDescriptor.
         
         let fetchRequest: NSFetchRequest<PowerRanger> = PowerRanger.fetchRequest()
         let colourSort = NSSortDescriptor(key: "id", ascending: true)
         fetchRequest.sortDescriptors = [colourSort]
-        
-        // Configuring NSFetchedResultsController with Fetch Request
-        // Important: Assigning controller. Without doing this, the program will crash and access a var controller that contains nil.
-        
+
         let vController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+        
         controller = vController
         
-        
-        // Retrieving Fetched Objects in Power Ranger Core Data
-       
         do {
             try controller.performFetch()
             
-            var fetchedObjects = controller.fetchedObjects
+            let fetchedObjects = controller.fetchedObjects
             
             if fetchedObjects?.count == 0 {
-                print("Default Data creating")
                 createDefaultData()
                 fetchData()
             }else {
-                print("Fetch Objects not nil")
-                print(controller.fetchedObjects)
+                print(controller.fetchedObjects as Any)
             }
         }catch{
             let error = error as NSError
@@ -322,44 +297,17 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
     }
     
     func createDefaultData(){
-        let ranger1 = PowerRanger(context: context)
-        ranger1.colourAsHex = "714493"
-        ranger1.id = "Purple"
-        ranger1.pointX = 0.0
-        ranger1.pointY = 0.0
-        ranger1.isDeployed = false
         
-        let ranger2 = PowerRanger(context: context)
-        ranger2.colourAsHex = "E98236"
-        ranger2.id = "Orange"
-        ranger2.pointX = 0.0
-        ranger2.pointY = 0.0
-        ranger2.isDeployed = false
-        
-        let ranger3 = PowerRanger(context: context)
-        ranger3.colourAsHex = "E35C86"
-        ranger3.id = "Pink"
-        ranger3.pointX = 0.0
-        ranger3.pointY = 0.0
-        ranger3.isDeployed = false
-        
-        let ranger4 = PowerRanger(context: context)
-        ranger4.colourAsHex = "82C7BC"
-        ranger4.id = "Cyan"
-        ranger4.pointX = 0.0
-        ranger4.pointY = 0.0
-        ranger4.isDeployed = false
-        
-        let ranger5 = PowerRanger(context: context)
-        ranger5.colourAsHex = "327DA8"
-        ranger5.id = "Blue"
-        ranger5.pointX = 0.0
-        ranger5.pointY = 0.0
-        ranger5.isDeployed = false
-        
+        for i in 0..<5{
+            let ranger = PowerRanger(context: context)
+            ranger.colourAsHex = rangerColourArray[i]
+            ranger.id = rangerColourNameArray[i]
+            ranger.pointX = 0.0
+            ranger.pointY = 0.0
+            ranger.isDeployed = false
+            ranger.hasBeenInitialised = false
+        }
         appDelegate.saveContext()
     }
-    
-    // Implementing Touches
 }
 

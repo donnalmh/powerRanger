@@ -14,7 +14,7 @@ extension UIColor{
     convenience init?(hex: String){
         
         // Normalizing Hex Values with #
-        let normalizedHex =  hex.replacingOccurrences(of: "#", with: "")
+        _ =  hex.replacingOccurrences(of: "#", with: "")
         
         // Creating Scanner to scan string for hexadecimal values
         let scanner = Scanner(string: hex)

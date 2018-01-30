@@ -35,23 +35,9 @@ class PowerRect: UIView {
     convenience init(frame: CGRect, powerRanger: PowerRanger){
         self.init(frame: frame)
         self.powerRanger = powerRanger
-    }
-
- /*   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print("touched")
+        self.backgroundColor = UIColor(hex: powerRanger.colourAsHex!)
+        powerRanger.pointX = frame.minX
+        powerRanger.pointY = frame.minY
         
-        var touch: UITouch! = touches.first
-        let location = touch.location(in: self)
-        print("location: \(location)")
-    
     }
-    
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print("object moved")
-        var touch: UITouch! = touches.first
-        let location = touch.location(in: self)
-        print("location: \(location)")
-    
-    }*/
-
 }
