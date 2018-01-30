@@ -9,7 +9,9 @@
 import UIKit
 
 class PowerRect: UIView {
-
+    
+    var powerRanger: PowerRanger!
+    var gestureRecognizer: UIPanGestureRecognizer!
     /*
     // Only override draw() if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.
@@ -17,11 +19,39 @@ class PowerRect: UIView {
         // Drawing code
     }
     */
-    
     override func awakeFromNib() {
         super.awakeFromNib()
+        isUserInteractionEnabled = true
     }
     
+    override init(frame: CGRect) {
+        super.init(frame: frame) // calls designated initializer
+    }
     
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    convenience init(frame: CGRect, powerRanger: PowerRanger){
+        self.init(frame: frame)
+        self.powerRanger = powerRanger
+    }
+
+ /*   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        print("touched")
+        
+        var touch: UITouch! = touches.first
+        let location = touch.location(in: self)
+        print("location: \(location)")
+    
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        print("object moved")
+        var touch: UITouch! = touches.first
+        let location = touch.location(in: self)
+        print("location: \(location)")
+    
+    }*/
 
 }

@@ -10,8 +10,6 @@
 import Foundation
 import UIKit
 import CoreData
-// No need to mess with this part
-// Extension of the class
 
 extension PowerRanger {
 
